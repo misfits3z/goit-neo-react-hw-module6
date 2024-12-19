@@ -1,52 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import SearchBox from './components/SearchBox/SearchBox';
 import ContactList from './components/ContactList/ContactList';
 import ContactForm from './components/ContactForm/ContactForm';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact } from './redux/contactSlice'; 
-import { changeFilter } from './redux/filtersSlice'; 
+import { selectContacts } from './redux/contactSlice';
+// import { addContact, deleteContact } from './redux/contactSlice'; 
+// import { changeFilter } from './redux/filtersSlice'; 
 
 function App() {
-
-  const [filter, setFilter] = useState('');
-
-  const contacts = useSelector((state) => state.contacts.items);
-
-  const nameFilter = useSelector((state) => state.filters.name);
-
+  const contacts = useSelector((state) => state.contacts.items); // Список контактів
+  const nameFilter = useSelector((state) => state.filters.name); // Фільтр
   const dispatch = useDispatch();
 
   useEffect(() => {
     const savedContacts = localStorage.getItem('contacts');
     if (savedContacts) {
-      dispatch(setContacts(JSON.parse(savedContacts)));
+      dispatch(selectContacts(JSON.parse(savedContacts)));
     }
   }, [dispatch]);
 
-  const handleAddContact = (newContact) => {
-    dispatch(addContact(newContact));
-  };
+  // const handleAddContact = (newContact) => {
+  //   dispatch(addContact(newContact)); // Додаємо контакт через Redux
+  // };
 
-  const handleDeleteContact = (id) => {
-    dispatch(deleteContact(id));
-  };
+  // const handleDeleteContact = (id) => {
+  //   dispatch(deleteContact(id)); // Видаляємо контакт через Redux
+  // };
 
-  const handleFilterChange = (evt) => {
-    setFilter(evt.target.value);
-    dispatch(changeFilter(evt.target.value)); 
-  };
+  // const handleFilterChange = (evt) => {
+  //   dispatch(changeFilter(evt.target.value))
+  // };
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(nameFilter.toLowerCase())
-  );
+  // const filteredContacts = contacts.filter((contact) =>
+  //   contact.name.toLowerCase().includes(nameFilter.toLowerCase()) 
+  // );
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm onAddContact={handleAddContact} />
-      <SearchBox type="text" value={filter} onChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} onDeleteContact={handleDeleteContact} />
+      <ContactForm />
+      <SearchBox/> 
+      <ContactList />
     </div>
   );
 }

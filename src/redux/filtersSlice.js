@@ -5,11 +5,16 @@ const initialState = {
 };
 
 const filtersSlice = createSlice({
-  name: 'filters',
-  initialState,
+  name: "filter",
+  initialState: {
+    name: "",
+  },
   reducers: {
     changeFilter: (state, action) => {
-      state.name = action.payload; // змінюємо фільтр
+      return {
+        ...state,
+        name: action.payload,
+      };
     },
   },
 });
